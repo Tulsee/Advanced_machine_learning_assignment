@@ -1,0 +1,93 @@
+[System]
+Name='SmartHome_Care_FLC'
+Type='mamdani'
+Version=2.0
+NumInputs=4
+NumOutputs=2
+NumRules=25
+AndMethod='min'
+OrMethod='max'
+ImpMethod='min'
+AggMethod='max'
+DefuzzMethod='centroid'
+
+[Input1]
+Name='Temperature'
+Range=[10 40]
+NumMFs=5
+MF1='Cold':'trapmf',[10 10 14 18]
+MF2='Cool':'trimf',[14 18 22]
+MF3='Comfortable':'trimf',[19 23 26]
+MF4='Warm':'trimf',[23 27 31]
+MF5='Hot':'trapmf',[28 32 40 40]
+
+[Input2]
+Name='Humidity'
+Range=[20 90]
+NumMFs=3
+MF1='Low':'trapmf',[20 20 30 45]
+MF2='Moderate':'trimf',[30 55 70]
+MF3='High':'trapmf',[60 75 90 90]
+
+[Input3]
+Name='ActivityLevel'
+Range=[0 10]
+NumMFs=3
+MF1='Sleeping':'trapmf',[0 0 1 3]
+MF2='Resting':'trimf',[1.5 4.5 7.5]
+MF3='Active':'trapmf',[6.5 9 10 10]
+
+[Input4]
+Name='AmbientLight'
+Range=[0 1000]
+NumMFs=3
+MF1='Dark':'trapmf',[0 0 100 300]
+MF2='Dim':'trimf',[150 400 700]
+MF3='Bright':'trapmf',[500 800 1000 1000]
+
+[Output1]
+Name='HVAC_Power'
+Range=[-100 100]
+NumMFs=5
+MF1='FullCool':'trapmf',[-100 -100 -70 -40]
+MF2='MildCool':'trimf',[-55 -25 0]
+MF3='Off':'trimf',[-20 0 20]
+MF4='MildHeat':'trimf',[0 25 55]
+MF5='FullHeat':'trapmf',[40 70 100 100]
+
+[Output2]
+Name='LightDimmer'
+Range=[0 100]
+NumMFs=5
+MF1='Off':'trapmf',[0 0 3 12]
+MF2='Low':'trimf',[5 22 40]
+MF3='Medium':'trimf',[30 50 70]
+MF4='High':'trimf',[60 78 92]
+MF5='Full':'trapmf',[85 95 100 100]
+
+[Rules]
+1 0 1 0, 5 1 (1) : 1
+1 0 2 0, 5 2 (1) : 1
+1 0 3 0, 4 3 (1) : 1
+2 0 1 0, 4 1 (1) : 1
+2 0 2 0, 3 2 (1) : 1
+2 0 3 0, 3 3 (1) : 1
+3 2 1 0, 3 1 (1) : 1
+3 2 2 0, 3 2 (1) : 1
+3 2 3 0, 3 3 (1) : 1
+3 3 0 0, 2 0 (0.8) : 1
+3 1 3 0, 4 0 (0.7) : 1
+4 0 1 0, 2 1 (1) : 1
+4 0 2 0, 2 2 (1) : 1
+4 0 3 0, 1 3 (1) : 1
+4 3 0 0, 1 0 (0.9) : 1
+5 0 1 0, 1 1 (1) : 1
+5 0 2 0, 1 2 (1) : 1
+5 0 3 0, 1 3 (1) : 1
+5 3 0 0, 1 0 (1) : 1
+0 0 1 1, 0 1 (1) : 1
+0 0 2 1, 0 3 (1) : 1
+0 0 3 1, 0 4 (1) : 1
+0 0 2 2, 0 2 (1) : 1
+0 0 3 2, 0 3 (1) : 1
+0 0 0 3, 0 1 (1) : 1
